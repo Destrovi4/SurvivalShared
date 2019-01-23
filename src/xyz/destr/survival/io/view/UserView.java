@@ -14,6 +14,7 @@ public class UserView implements Synchronizable {
 	
 	public void clear() {
 		messageList.clear();
+		actorTypeList.clear();
 	}
 	
 	@Override
