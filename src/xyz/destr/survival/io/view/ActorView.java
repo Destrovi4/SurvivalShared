@@ -27,6 +27,8 @@ public class ActorView implements Synchronizable {
 	@Override
 	public void read(DataInput in) throws IOException {
 		uid = UID.read(in);
+		x = in.readInt();
+		y = in.readInt();
 		region.read(in);
 		otherActorList.read(in);
 	}
@@ -34,6 +36,8 @@ public class ActorView implements Synchronizable {
 	@Override
 	public void write(DataOutput out) throws IOException {
 		uid.write(out);
+		out.writeInt(x);
+		out.writeInt(y);
 		region.write(out);
 		otherActorList.write(out);
 	}
