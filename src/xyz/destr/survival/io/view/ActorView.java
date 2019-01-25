@@ -13,6 +13,7 @@ public class ActorView implements Synchronizable {
 	public UID uid;
 	public int x;
 	public int y;
+	public float energy;
 	
 	public final TileRegionView region = new TileRegionView();
 	public final SynchronizableArrayList<OtherActorView> otherActorList = new SynchronizableArrayList<>(OtherActorView.class);
@@ -29,6 +30,7 @@ public class ActorView implements Synchronizable {
 		uid = UID.read(in);
 		x = in.readInt();
 		y = in.readInt();
+		energy = in.readFloat();
 		region.read(in);
 		otherActorList.read(in);
 	}
@@ -38,6 +40,7 @@ public class ActorView implements Synchronizable {
 		uid.write(out);
 		out.writeInt(x);
 		out.writeInt(y);
+		out.writeFloat(energy);
 		region.write(out);
 		otherActorList.write(out);
 	}
