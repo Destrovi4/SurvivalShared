@@ -14,6 +14,7 @@ public class ActorView implements Synchronizable {
 	public boolean isDead;
 	public int x;
 	public int y;
+	public float health;
 	public float energy;
 	
 	public final TileRegionView region = new TileRegionView();
@@ -32,6 +33,7 @@ public class ActorView implements Synchronizable {
 		isDead = in.readBoolean();
 		x = in.readInt();
 		y = in.readInt();
+		health = in.readFloat();
 		energy = in.readFloat();
 		region.read(in);
 		otherActorList.read(in);
@@ -43,6 +45,7 @@ public class ActorView implements Synchronizable {
 		out.writeBoolean(isDead);
 		out.writeInt(x);
 		out.writeInt(y);
+		out.writeFloat(health);
 		out.writeFloat(energy);
 		region.write(out);
 		otherActorList.write(out);
