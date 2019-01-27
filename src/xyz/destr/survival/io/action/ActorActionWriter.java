@@ -39,4 +39,9 @@ public class ActorActionWriter {
 		command.type = ActorCommand.Type.EAT_TILE_OBJECT;
 	}
 	
+	public void breed() {
+		ActorCommand command = getActorAction().commandList.addInstance();
+		command.type = ActorCommand.Type.BREED;
+	}
+	
 }
