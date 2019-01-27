@@ -1,6 +1,7 @@
 package xyz.destr.survival.io.action;
 
 import xyz.destr.survival.io.view.ActorView;
+import xyz.destr.survival.io.view.OtherActorView;
 
 public class ActorActionWriter {
 	
@@ -42,6 +43,12 @@ public class ActorActionWriter {
 	public void breed() {
 		ActorCommand command = getActorAction().commandList.addInstance();
 		command.type = ActorCommand.Type.BREED;
+	}
+	
+	public void attack(OtherActorView other) {
+		ActorCommand command = getActorAction().commandList.addInstance();
+		command.type = ActorCommand.Type.ATTACK;
+		command.properties.setString("uuid", other.uuid.toString());
 	}
 	
 }

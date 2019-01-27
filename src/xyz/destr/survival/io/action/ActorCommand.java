@@ -13,7 +13,8 @@ public class ActorCommand implements Synchronizable  {
 		IDLE,
 		MOVE,
 		EAT_TILE_OBJECT,
-		BREED
+		BREED,
+		ATTACK
 	}
 	
 	public Type type;
