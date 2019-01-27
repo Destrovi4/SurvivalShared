@@ -11,6 +11,7 @@ import xyz.destr.survival.io.SynchronizableArrayList;
 public class ActorView implements Synchronizable {
 
 	public UID uid;
+	public boolean isDead;
 	public int x;
 	public int y;
 	public float energy;
@@ -28,6 +29,7 @@ public class ActorView implements Synchronizable {
 	@Override
 	public void read(DataInput in) throws IOException {
 		uid = UID.read(in);
+		isDead = in.readBoolean();
 		x = in.readInt();
 		y = in.readInt();
 		energy = in.readFloat();
@@ -38,6 +40,7 @@ public class ActorView implements Synchronizable {
 	@Override
 	public void write(DataOutput out) throws IOException {
 		uid.write(out);
+		out.writeBoolean(isDead);
 		out.writeInt(x);
 		out.writeInt(y);
 		out.writeFloat(energy);
