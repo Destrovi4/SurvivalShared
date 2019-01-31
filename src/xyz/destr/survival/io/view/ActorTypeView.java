@@ -5,13 +5,14 @@ import java.io.DataOutput;
 import java.io.IOException;
 import java.util.UUID;
 
+import xyz.destr.survival.game.actor.ActorProperties;
 import xyz.destr.survival.io.Synchronizable;
 import xyz.destr.survival.io.SynchronizableArrayList;
 
 public class ActorTypeView implements Synchronizable {
 
 	public UUID uuid;
-	
+	public final ActorProperties properties = new ActorProperties();
 	public final SynchronizableArrayList<ActorView> actorList = new SynchronizableArrayList<>(ActorView.class);
 		
 	@Override
