@@ -12,8 +12,6 @@ public class ActorView implements Synchronizable {
 
 	public UID uid;
 	public boolean isDead;
-	public int x;
-	public int y;
 	public float health;
 	public float energy;
 	
@@ -31,8 +29,6 @@ public class ActorView implements Synchronizable {
 	public void read(DataInput in) throws IOException {
 		uid = UID.read(in);
 		isDead = in.readBoolean();
-		x = in.readInt();
-		y = in.readInt();
 		health = in.readFloat();
 		energy = in.readFloat();
 		region.read(in);
@@ -43,8 +39,6 @@ public class ActorView implements Synchronizable {
 	public void write(DataOutput out) throws IOException {
 		uid.write(out);
 		out.writeBoolean(isDead);
-		out.writeInt(x);
-		out.writeInt(y);
 		out.writeFloat(health);
 		out.writeFloat(energy);
 		region.write(out);
