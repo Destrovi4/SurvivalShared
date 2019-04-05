@@ -55,6 +55,7 @@ public class ObjectSerializer implements Serializer, HaveInnerSerializer {
 			final int modifiers = field.getModifiers();
 			if(Modifier.isStatic(modifiers)) continue;			
 			if(field.isSynthetic()) continue;
+			if(!field.isAccessible()) field.setAccessible(true);
 			
 			final Class<?> fieldType = field.getType();
 			ArrayList<Class<?>> typeList = null;

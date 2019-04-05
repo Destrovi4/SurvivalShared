@@ -89,6 +89,7 @@ public class BasicClient implements Runnable {
 				out.writeLong(0);
 				out.writeLong(0);
 			} else {
+				System.out.println("Loaded uuid " + clientUuidFromFile);
 				out.writeLong(clientUuidFromFile.getMostSignificantBits());
 				out.writeLong(clientUuidFromFile.getLeastSignificantBits());
 			}

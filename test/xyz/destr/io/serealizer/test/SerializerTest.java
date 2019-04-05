@@ -5,7 +5,9 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
+import java.io.DataInput;
 import java.io.DataInputStream;
+import java.io.DataOutput;
 import java.io.DataOutputStream;
 import java.util.Random;
 
@@ -73,7 +75,7 @@ public class SerializerTest {
 		data.double0 = randomDouble();
 	}
 	
-	static enum TestEnum {
+	public static enum TestEnum {
 		A,
 		B,
 		C;
@@ -107,17 +109,19 @@ public class SerializerTest {
 		
 		Serializer serializer = Serializer.get(SerializerTest.class);
 		
-		{
+		/*{
 			ByteArrayOutputStream baos = new ByteArrayOutputStream();
 			serializer.writeProtocol(new DataOutputStream(baos));
 			serializer.checkProtocol(new DataInputStream(new ByteArrayInputStream(baos.toByteArray())));
-		}
+		}*/
 		
 		SerializerTest other = new SerializerTest();
 		{
 			ByteArrayOutputStream baos = new ByteArrayOutputStream();
-			serializer.write(new DataOutputStream(baos), this);
-			serializer.read(other, new DataInputStream(new ByteArrayInputStream(baos.toByteArray())));
+			DataOutput output = new DataOutputStream(baos);
+			serializer.write(output, this);
+			DataInput input = new DataInputStream(new ByteArrayInputStream(baos.toByteArray()));
+			serializer.read(other, input);
 		}
 				
 		testEquals(other);

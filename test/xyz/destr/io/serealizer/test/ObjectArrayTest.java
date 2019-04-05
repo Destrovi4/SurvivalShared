@@ -6,7 +6,9 @@ import static org.junit.jupiter.api.Assertions.assertNull;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
+import java.io.DataInput;
 import java.io.DataInputStream;
+import java.io.DataOutput;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.util.Random;
@@ -20,7 +22,7 @@ public class ObjectArrayTest {
 
 	static final Random random = new Random(0);
 	
-	static class Data {
+	public static class Data {
 		int i;
 	}
 	
@@ -36,8 +38,10 @@ public class ObjectArrayTest {
 		manager.addDefaultSerializers();
 		final ObjectArraySerializer serializer = new ObjectArraySerializer(manager, Data[].class);
 		final ByteArrayOutputStream baos = new ByteArrayOutputStream();
-		serializer.write(new DataOutputStream(baos), a);
-		final Data[] b = (Data[])serializer.read(new DataInputStream(new ByteArrayInputStream(baos.toByteArray())));
+		DataOutput output = new DataOutputStream(baos);
+		serializer.write(output, a);
+		DataInput input = new DataInputStream(new ByteArrayInputStream(baos.toByteArray()));
+		final Data[] b = (Data[])serializer.read(input);
 		assertNotNull(b);
 		assertEquals(a.length, b.length);
 		for(int i = 0; i < a.length; i++) {

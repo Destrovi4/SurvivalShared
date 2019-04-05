@@ -17,22 +17,22 @@ import xyz.destr.io.serealizer.SerializerOptions;
 import xyz.destr.io.serealizer.SwitchSerializer;
 
 public class SwitchSerializerTest {
-	static class DataA {}
-	static class DataB extends DataA {
+	public static class DataA {}
+	public static class DataB extends DataA {
 		public int data;
 		public DataB() {}
 		public DataB(int data) {
 			this.data = data;
 		}
 	}
-	static class DataC extends DataA {
+	public static class DataC extends DataA {
 		public float data;
 		public DataC() {}
 		public DataC(float data) {
 			this.data = data;
 		}
 	}
-	static class TestData {
+	public static class TestData {
 		@SerialazeTypes(types = {DataB.class, DataC.class})
 		DataA data0;
 		@SerialazeTypes(types = {DataB.class, DataC.class})
