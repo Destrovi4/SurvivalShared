@@ -31,6 +31,15 @@ public class EntityOutput {
 		return clone;
 	}
 	
+	public void merge(EntityOutput other) {
+		if(!other.uuid.equals(uuid)) {
+			throw new RuntimeException("Wrong merging " + other.uuid + " to " + uuid);
+		}
+		for(WorldDisplay worldDisplay: other.worldOutputList) {
+			worldOutputList.add(worldDisplay.clone());
+		}
+	}
+	
 	public static void copy(Collection<EntityOutput> to, Collection<EntityOutput> from) {
 		to.clear();
 		for(EntityOutput output: from) {

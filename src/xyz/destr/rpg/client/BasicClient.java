@@ -1,9 +1,8 @@
 package xyz.destr.rpg.client;
 
+import java.io.BufferedOutputStream;
 import java.io.BufferedReader;
-import java.io.DataInput;
 import java.io.DataInputStream;
-import java.io.DataOutput;
 import java.io.DataOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
@@ -64,7 +63,6 @@ public class BasicClient implements Runnable {
 	
 	@Override
 	public void run() {
-				
 		Socket socket;
 		final Serializer userInputSerializer = SerializerManager.getInstance().get(UserOutput.class);
 		final Serializer userOutputSerializer = SerializerManager.getInstance().get(UserInput.class);
@@ -79,11 +77,13 @@ public class BasicClient implements Runnable {
 			System.out.println("Connection to: " + address);
 			System.out.println("Port: " + port);
 			socket = new Socket(address, port);
-			final DataInput in = new DataInputStream(socket.getInputStream());
-			final DataOutput out = new DataOutputStream(socket.getOutputStream());
+			final DataInputStream in = new DataInputStream(socket.getInputStream());
+			final DataOutputStream out = new DataOutputStream(new BufferedOutputStream(socket.getOutputStream()));
+			
 			out.writeUTF(Constants.HANDSHAKE);
+			out.flush();
 			if(!Constants.HANDSHAKE.equals(in.readUTF())) throw new IOException();
-									
+								
 			final UUID clientUuidFromFile = readClientUUID();
 			if(clientUuidFromFile == null) {
 				out.writeLong(0);
@@ -93,6 +93,8 @@ public class BasicClient implements Runnable {
 				out.writeLong(clientUuidFromFile.getMostSignificantBits());
 				out.writeLong(clientUuidFromFile.getLeastSignificantBits());
 			}
+			out.flush();
+			
 			final UUID clientUUID = new UUID(in.readLong(), in.readLong());
 			if(!clientUUID.equals(clientUuidFromFile)) {
 				System.out.println("User created: " + clientUUID);
@@ -100,16 +102,17 @@ public class BasicClient implements Runnable {
 			} else {
 				System.out.println("Sucsess login as: " + clientUUID);
 			}
-			
-			userInputSerializer.writeProtocol(out);
-			userOutputSerializer.writeProtocol(out);
+						
+			//userInputSerializer.writeProtocol(out);
+			//userOutputSerializer.writeProtocol(out);
 			
 			connected(clientUUID);
-			
 			while(socket.isConnected()) {
 				userInputSerializer.read(userOutput, in);
 				process(userInput, userOutput);
 				userOutputSerializer.write(out, userInput);
+				out.flush();
+				userInput.clear();
 			}
 		} catch (IOException e) {
 			e.printStackTrace();
