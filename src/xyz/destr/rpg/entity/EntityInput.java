@@ -5,6 +5,11 @@ import java.util.Collection;
 import java.util.UUID;
 
 import xyz.destr.io.serealizer.SerialazeInnerTypes;
+import xyz.destr.rpg.entity.command.EntityCommand;
+import xyz.destr.rpg.entity.command.EntityCommandMove;
+import xyz.destr.rpg.entity.skill.SkillInput;
+import xyz.destr.rpg.entity.skill.StaticSkill;
+import xyz.destr.rpg.world.WorldDirection;
 
 public class EntityInput {
 
@@ -13,14 +18,19 @@ public class EntityInput {
 	@SerialazeInnerTypes(types = {EntityCommandMove.class})
 	public ArrayList<EntityCommand> inputList = new ArrayList<>();
 	
+	@SerialazeInnerTypes(types = {SkillInput.class})
+	public ArrayList<SkillInput> skillInputList = new ArrayList<>();
+	
 	public void clear() {
 		this.uuid = null;
 		this.inputList.clear();
+		this.skillInputList.clear();
 	}
 	
 	public void copyOf(EntityInput other) {
 		this.uuid = other.uuid;
 		EntityCommand.copy(inputList, other.inputList);
+		SkillInput.copy(skillInputList, other.skillInputList);
 	}
 	
 	public EntityInput clone() {
@@ -37,7 +47,15 @@ public class EntityInput {
 	}
 	
 	public boolean isEmpty() {
-		return inputList.isEmpty();
+		return inputList.isEmpty() && skillInputList.isEmpty();
+	}
+	
+	public void useSkill(UUID uuid, Object... args) {
+		SkillInput skillInput = new SkillInput(uuid, SkillInput.USE);
+		for(Object arg: args) {
+			skillInput.addArgument(arg);
+		}
+		skillInputList.add(skillInput);
 	}
 	
 	public void move(int dx, int dy, int dz) {
@@ -46,6 +64,10 @@ public class EntityInput {
 		move.dy = dy;
 		move.dz = dz;
 		inputList.add(move);
+	}
+	
+	public void move(WorldDirection direction) {
+		useSkill(StaticSkill.MOVE, direction);
 	}
 	
 }

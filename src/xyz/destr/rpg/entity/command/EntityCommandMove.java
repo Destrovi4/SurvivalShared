@@ -1,4 +1,4 @@
-package xyz.destr.rpg.entity;
+package xyz.destr.rpg.entity.command;
 
 public class EntityCommandMove implements EntityCommand {
 

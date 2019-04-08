@@ -1,13 +1,18 @@
 package xyz.destr.rpg.client;
 
+import java.util.Random;
+
 import xyz.destr.rpg.entity.EntityBehavior;
 import xyz.destr.rpg.entity.EntityInput;
 import xyz.destr.rpg.entity.EntityOutput;
+import xyz.destr.rpg.world.WorldDirection;
 import xyz.destr.rpg.world.WorldDisplay;
 import xyz.destr.rpg.world.cell.CellDisplay;
 
 public class TestEntityBehavior implements EntityBehavior {
 
+	protected Random random = new Random();
+	
 	@Override
 	public void onOutput(EntityOutput output) {
 		System.out.println("Entity: " + output.uuid);
@@ -38,7 +43,19 @@ public class TestEntityBehavior implements EntityBehavior {
 
 	@Override
 	public void onInput(EntityInput input) {
-		input.move(1, 0, 0);
+		if(random.nextBoolean()) {
+			input.move(
+				random.nextBoolean()?
+				WorldDirection.NORTH:
+				WorldDirection.SOUTH
+			);
+		} else {
+			input.move(
+				random.nextBoolean()?
+				WorldDirection.EAST:
+				WorldDirection.WEST
+			);
+		}
 	}
 
 }

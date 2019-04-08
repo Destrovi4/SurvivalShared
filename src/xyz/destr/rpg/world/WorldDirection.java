@@ -1,7 +1,22 @@
 package xyz.destr.rpg.world;
 
 public enum WorldDirection {
+	NOWHERE(0, 0, 0){
+		@Override
+		public WorldDirection reverse() {
+			return NOWHERE;
+		}
 		
+		@Override
+		public WorldDirection right90() {
+			return NOWHERE;
+		}
+		
+		@Override
+		public WorldDirection left90() {
+			return NOWHERE;
+		}
+	},
 	EAST(1, 0, 0){
 		
 		@Override
@@ -111,7 +126,14 @@ public enum WorldDirection {
 		
 	};
 	
-	public static final WorldDirection[] VALUES = values();
+	public static final WorldDirection[] SIDES = {
+		EAST,
+		SOUTH,
+		WEST,
+		NORTH,
+		TOP,
+		BOTTOM
+	};
 	
 	public final int x;
 	public final int y;

@@ -1,4 +1,4 @@
-package xyz.destr.rpg.entity;
+package xyz.destr.rpg.entity.command;
 
 import java.util.Collection;
 
