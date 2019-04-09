@@ -4,6 +4,7 @@ import xyz.destr.rpg.world.WorldDirection;
 
 public class SkillArgumentDirection implements SkillArgument {
 
+	private static final long serialVersionUID = 5303843981493570068L;
 	public final WorldDirection direction;
 	
 	public SkillArgumentDirection() {

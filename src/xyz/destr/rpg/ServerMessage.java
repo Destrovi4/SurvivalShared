@@ -1,8 +1,11 @@
 package xyz.destr.rpg;
 
+import java.io.Serializable;
 import java.util.Collection;
 
-public class ServerMessage {
+public class ServerMessage implements Serializable {
+	
+	private static final long serialVersionUID = -7915462521242138623L;
 	public ServerMessageType type;
 	public String text;
 	

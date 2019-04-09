@@ -1,13 +1,14 @@
 package xyz.destr.rpg;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
-import xyz.destr.io.serealizer.SerialazeInnerTypes;
 import xyz.destr.rpg.entity.EntityInput;
 
-public class UserInput {
+public class UserInput implements Serializable {
 
-	@SerialazeInnerTypes(types = {EntityInput.class})
+	private static final long serialVersionUID = -7390866463013948876L;
+
 	public ArrayList<EntityInput> entityInputList = new ArrayList<>();
 	
 	public void clear() {

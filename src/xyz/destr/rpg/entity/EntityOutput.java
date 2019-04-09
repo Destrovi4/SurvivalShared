@@ -1,17 +1,18 @@
 package xyz.destr.rpg.entity;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.UUID;
 
-import xyz.destr.io.serealizer.SerialazeInnerTypes;
 import xyz.destr.rpg.world.WorldDisplay;
 
-public class EntityOutput {
+public class EntityOutput implements Serializable {
 	
+	private static final long serialVersionUID = -4062279056269769460L;
+
 	public UUID uuid;
 	
-	@SerialazeInnerTypes(types = {WorldDisplay.class})
 	public final ArrayList<WorldDisplay> worldOutputList = new ArrayList<>();
 	
 	public void clear() {

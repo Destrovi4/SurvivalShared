@@ -1,13 +1,15 @@
 package xyz.destr.rpg.entity.skill;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.UUID;
 
-import xyz.destr.io.serealizer.SerialazeInnerTypes;
 import xyz.destr.rpg.world.MaterialType;
 import xyz.destr.rpg.world.WorldDirection;
 
-public class SkillInput {
+public class SkillInput implements Serializable {
+	
+	private static final long serialVersionUID = 5197605991771593729L;
 	
 	public static final int USE = 1<<1;
 	public static final int CANCEL = 1<<2;
@@ -16,11 +18,7 @@ public class SkillInput {
 	
 	public UUID uuid;
 	public int action;
-			
-	@SerialazeInnerTypes(types = {
-		SkillArgumentDirection.class,
-		SkillArgumentMaterialType.class
-	})
+	
 	public ArrayList<SkillArgument> argumentList = new ArrayList<>();
 
 	public SkillInput() {

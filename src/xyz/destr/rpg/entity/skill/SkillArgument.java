@@ -1,8 +1,9 @@
 package xyz.destr.rpg.entity.skill;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public interface SkillArgument {
+public interface SkillArgument extends Serializable {
 	
 	public SkillArgumentType getType();
 

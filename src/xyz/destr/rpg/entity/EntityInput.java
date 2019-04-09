@@ -1,24 +1,23 @@
 package xyz.destr.rpg.entity;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.UUID;
 
-import xyz.destr.io.serealizer.SerialazeInnerTypes;
 import xyz.destr.rpg.entity.command.EntityCommand;
 import xyz.destr.rpg.entity.command.EntityCommandMove;
 import xyz.destr.rpg.entity.skill.SkillInput;
 import xyz.destr.rpg.entity.skill.StaticSkill;
 import xyz.destr.rpg.world.WorldDirection;
 
-public class EntityInput {
+public class EntityInput implements Serializable {
+
+	private static final long serialVersionUID = 3080082052617896796L;
 
 	public UUID uuid;
 	
-	@SerialazeInnerTypes(types = {EntityCommandMove.class})
 	public ArrayList<EntityCommand> inputList = new ArrayList<>();
-	
-	@SerialazeInnerTypes(types = {SkillInput.class})
 	public ArrayList<SkillInput> skillInputList = new ArrayList<>();
 	
 	public void clear() {

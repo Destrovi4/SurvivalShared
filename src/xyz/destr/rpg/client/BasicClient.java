@@ -2,6 +2,7 @@ package xyz.destr.rpg.client;
 
 import java.io.BufferedOutputStream;
 import java.io.BufferedReader;
+import java.io.ByteArrayOutputStream;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.File;
@@ -11,14 +12,16 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.net.InetAddress;
 import java.net.Socket;
 import java.net.UnknownHostException;
+import java.nio.ByteBuffer;
 import java.util.UUID;
 
-import xyz.destr.io.serealizer.Serializer;
-import xyz.destr.io.serealizer.SerializerManager;
 import xyz.destr.rpg.Constants;
 import xyz.destr.rpg.ServerMessage;
 import xyz.destr.rpg.UserInput;
@@ -33,9 +36,26 @@ public class BasicClient implements Runnable {
 	protected InetAddress address;
 	protected int port = Constants.PORT;
 	protected EntityBehavior behavior;
+	
+	protected ByteBuffer buffer = ByteBuffer.allocate(2048);
 
 	public BasicClient(EntityBehavior behavior) {
 		this.behavior = behavior;
+	}
+	
+	protected void writeObject(OutputStream out, Object object) throws IOException {
+		ByteArrayOutputStream baos = new ByteArrayOutputStream();
+		new ObjectOutputStream(baos).writeObject(object);
+		out.write(baos.toByteArray());
+		out.flush();
+	}
+	
+	protected Object readObject(InputStream in) throws IOException {
+		try {
+			return new ObjectInputStream(in).readObject();
+		} catch (ClassNotFoundException e) {
+			throw new IOException(e);
+		}
 	}
 	
 	public void setArguments(String... args) {
@@ -60,14 +80,12 @@ public class BasicClient implements Runnable {
 			}
 		}
 	}
-	
+		
 	@Override
 	public void run() {
 		Socket socket;
-		final Serializer userInputSerializer = SerializerManager.getInstance().get(UserOutput.class);
-		final Serializer userOutputSerializer = SerializerManager.getInstance().get(UserInput.class);
-
-		final UserOutput userOutput = new UserOutput();
+		
+		//final UserOutput userOutput = new UserOutput();
 		final UserInput userInput = new UserInput();
 		
 		try {
@@ -80,10 +98,33 @@ public class BasicClient implements Runnable {
 			final DataInputStream in = new DataInputStream(socket.getInputStream());
 			final DataOutputStream out = new DataOutputStream(new BufferedOutputStream(socket.getOutputStream()));
 			
+			writeObject(out, Constants.HANDSHAKE);
+	
+			if(!Constants.HANDSHAKE.equals(readObject(in))) throw new IOException();
+			
+			final UUID clientUuidFromFile = readClientUUID();
+			if(clientUuidFromFile == null) {
+				writeObject(out, new UUID(0,0));
+			} else {
+				System.out.println("Loaded uuid " + clientUuidFromFile);
+				writeObject(out, clientUuidFromFile);
+			}
+			
+			final UUID clientUUID = (UUID)readObject(in);
+			connected(clientUUID);
+			while(socket.isConnected()) {
+				UserOutput userOutput = (UserOutput)readObject(in);
+				process(userInput, userOutput);
+				writeObject(out, userInput);
+				userInput.clear();
+			}
+			
+			
+			/*
 			out.writeUTF(Constants.HANDSHAKE);
 			out.flush();
 			if(!Constants.HANDSHAKE.equals(in.readUTF())) throw new IOException();
-								
+				
 			final UUID clientUuidFromFile = readClientUUID();
 			if(clientUuidFromFile == null) {
 				out.writeLong(0);
@@ -114,7 +155,8 @@ public class BasicClient implements Runnable {
 				out.flush();
 				userInput.clear();
 			}
-		} catch (IOException e) {
+			*/
+		} catch (IOException e) {//| ClassNotFoundException e) {
 			e.printStackTrace();
 		}
 	}

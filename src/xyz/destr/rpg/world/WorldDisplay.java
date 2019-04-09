@@ -1,11 +1,14 @@
 package xyz.destr.rpg.world;
 
+import java.io.Serializable;
 import java.util.Collection;
 
 import xyz.destr.rpg.world.cell.CellDisplay;
 
-public class WorldDisplay {
+public class WorldDisplay implements Serializable {
 
+	private static final long serialVersionUID = -2837211145423871009L;
+	
 	public int x;
 	public int y;
 	public int z;

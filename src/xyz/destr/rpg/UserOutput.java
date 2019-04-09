@@ -1,17 +1,17 @@
 package xyz.destr.rpg;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
-import xyz.destr.io.serealizer.SerialazeInnerTypes;
 import xyz.destr.rpg.entity.EntityOutput;
 
-public class UserOutput {
+public class UserOutput implements Serializable {
+	
+	private static final long serialVersionUID = 6099377942302426588L;
+
 	public int tick;	
 	
-	@SerialazeInnerTypes(types = {ServerMessage.class})
 	public ArrayList<ServerMessage> messageList = new ArrayList<>();
-	
-	@SerialazeInnerTypes(types = {EntityOutput.class})
 	public ArrayList<EntityOutput> entityOutputList = new ArrayList<>();
 	
 	public void clear() {

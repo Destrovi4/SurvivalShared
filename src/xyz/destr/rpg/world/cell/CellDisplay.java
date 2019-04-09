@@ -1,9 +1,13 @@
 package xyz.destr.rpg.world.cell;
 
+import java.io.Serializable;
+
 import xyz.destr.rpg.world.MaterialType;
 import xyz.destr.rpg.world.WorldDirection;
 
-public class CellDisplay {
+public class CellDisplay  implements Serializable {
+	
+	private static final long serialVersionUID = -5160412096918597059L;
 	public MaterialType fillMaterial;
 	public MaterialType eastSurface;
 	public MaterialType southSurface;

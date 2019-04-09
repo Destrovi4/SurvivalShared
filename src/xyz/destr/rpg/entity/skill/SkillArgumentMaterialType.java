@@ -4,6 +4,7 @@ import xyz.destr.rpg.world.MaterialType;
 
 public class SkillArgumentMaterialType implements SkillArgument {
 
+	private static final long serialVersionUID = 543872555880738701L;
 	public MaterialType materialType;
 	
 	public SkillArgumentMaterialType() {

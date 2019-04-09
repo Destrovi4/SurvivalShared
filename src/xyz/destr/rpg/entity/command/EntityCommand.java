@@ -1,8 +1,9 @@
 package xyz.destr.rpg.entity.command;
 
+import java.io.Serializable;
 import java.util.Collection;
 
-public interface EntityCommand {
+public interface EntityCommand extends Serializable {
 	
 	public EntityCommandType getCommandType();
 	

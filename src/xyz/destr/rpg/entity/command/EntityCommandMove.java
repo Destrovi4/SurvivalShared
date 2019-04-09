@@ -2,6 +2,7 @@ package xyz.destr.rpg.entity.command;
 
 public class EntityCommandMove implements EntityCommand {
 
+	private static final long serialVersionUID = -1086123734403493526L;
 	public int dx;
 	public int dy;
 	public int dz;
